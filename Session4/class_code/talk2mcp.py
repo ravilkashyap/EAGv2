@@ -63,29 +63,46 @@ async def main():
     reset_state()  # Reset at the start of main
     print("Starting main execution...")
     try:
-        # Create a single MCP server connection
-        print("Establishing connection to MCP server...")
-        server_params = StdioServerParameters(
+        # Connect to both Excalidraw and Gmail MCP servers
+        print("Establishing connections to MCP servers...")
+
+        # Excalidraw server
+        excalidraw_params = StdioServerParameters(
+            command="python",
+            args=["mac_mcp_server.py"]
+        )
+
+        # Gmail server
+        gmail_params = StdioServerParameters(
             command="uv",
             args=[
                 "run",
-                "/Users/ravil/Documents/TSAI/Session4/class_code/gmail-mcp-server/src/gmail/server.py",
-                "--creds-file-path", "/Users/ravil/Documents/TSAI/gmail_credentials.json",
-                "--token-path", "/Users/ravil/Documents/TSAI/gmail_token.json"
+                "/Users/ravil/Documents/TSAI/EAGv2/Session4/class_code/gmail-mcp-server/src/gmail/server.py",
+                "--creds-file-path", "/Users/ravil/Documents/TSAI/EAGv2/gmail_credentials.json",
+                "--token-path", "/Users/ravil/Documents/TSAI/EAGv2/gmail_token.json"
             ]
         )
 
-        async with stdio_client(server_params) as (read, write):
-            print("Connection established, creating session...")
-            async with ClientSession(read, write) as session:
-                print("Session created, initializing...")
-                await session.initialize()
+        # Connect to both servers
+        async with stdio_client(excalidraw_params) as (excalidraw_read, excalidraw_write), \
+                   stdio_client(gmail_params) as (gmail_read, gmail_write):
 
-                # Get available tools
-                print("Requesting tool list...")
-                tools_result = await session.list_tools()
-                tools = tools_result.tools
-                print(f"Successfully retrieved {len(tools)} tools")
+            # Create sessions for both servers
+            async with ClientSession(excalidraw_read, excalidraw_write) as excalidraw_session, \
+                       ClientSession(gmail_read, gmail_write) as gmail_session:
+
+                print("Sessions created, initializing...")
+                await excalidraw_session.initialize()
+                await gmail_session.initialize()
+
+                # Get available tools from both servers
+                print("Requesting tool lists...")
+                excalidraw_tools_result = await excalidraw_session.list_tools()
+                gmail_tools_result = await gmail_session.list_tools()
+
+                # Combine tools from both servers
+                tools = excalidraw_tools_result.tools + gmail_tools_result.tools
+                print(f"Successfully retrieved {len(tools)} tools from both servers")
 
 
                 # Create system prompt with available tools
@@ -131,7 +148,7 @@ async def main():
 
                 print("Created system prompt...")
 
-                system_prompt = f"""You are an email assistant that can solve math problems and send emails. You have access to mathematical tools and Gmail functionality.
+                system_prompt = f"""You are a math assistant that can solve problems, visualize results with Excalidraw, and send emails. You have access to mathematical tools, Excalidraw for visualization, and Gmail for communication.
 
 Available tools:
 {tools_description}
@@ -150,20 +167,27 @@ Important:
 - When a function returns multiple values, you need to process all of them
 - Only give FINAL_ANSWER when you have completed all necessary calculations
 - Do not repeat function calls with the same parameters
-- You can use Gmail functions (send-email, get-unread-emails, read-email, etc.) to share results
-- Use send-email to share your final answer when appropriate
+- You can use Excalidraw functions (open_chrome_excalidraw, draw_rectangle, add_text_in_excalidraw) to visualize results
+- You can use Gmail functions (send-email) to share results via email
+- When using send-email, prFUNCTION_CALL: send-emaiovide: recipient_email|subject|HTML-formattedbody (do not include subject in the body)
+    - Use ravilkashyap619@gmail.com as the recipient always
+    - Subject - Summarized one-liner of the question/problem (Eg: Convert "INDIA" to ASCII and sum exponentials)
+    - Body - Well-formatted detailed steps and explanation of the solution. Format should be renderable by gmail. Do not include subject in the body. Ensure the format is HTML so that it gets rendered correctly. In the email DO NOT MENTION about excalidraw.
+- After visualizing with Excalidraw, you can send the result via email
 
 Examples:
 - FUNCTION_CALL: add|5|3
-- FUNCTION_CALL: send-email|recipient@example.com|Math Problem Solved|The answer is 42
-- FUNCTION_CALL: get-unread-emails
+- FUNCTION_CALL: open_chrome_excalidraw
+- FUNCTION_CALL: draw_rectangle|100|100|400|300
+- FUNCTION_CALL: add_text_in_excalidraw|The answer is 42
+- FUNCTION_CALL: send-email|ravilkashyap619@gmail.com|<subject>|<HTML-formatted-well-detailed-steps-and-explanation>
 - FINAL_ANSWER: [The answer is 42]
 - END_OF_ANSWER: [The answer is 42]
 
 DO NOT include any explanations or additional text.
 Your entire response should be a single line starting with one of these - FUNCTION_CALL:, FINAL_ANSWER:, END_OF_ANSWER:"""
 
-                query = """Calculate the result of adding 15 and 27, then multiply by 3. When you have the final answer, you can use the Gmail tools to send the result to someone. Use send-email with a recipient email, subject, and the answer in the body."""
+                query = """Find the ASCII values of characters in THESCHOOLOFAI and then calculate the sum of exponentials of those values. When you have the final answer, you can use the Excalidraw tools to create a visual representation and display the results there as a rectangle. Always use the Excalidraw tools to show the final result. Once we display the result, then send the result via email using the Gmail tools. The email will be sent as HTML, so format the body with proper HTML tags (<p>, <strong>, <ol>, <li>, etc.) for better rendering in Gmail. Use a clear subject line and provide the calculation steps and final answer in the HTML-formatted email body. You can return END_OF_ANSWER: at the very end"""
                 print("Starting iteration loop...")
 
                 # Use global iteration variables
@@ -247,7 +271,14 @@ Your entire response should be a single line starting with one of these - FUNCTI
                             print(f"DEBUG: Final arguments: {arguments}")
                             print(f"DEBUG: Calling tool {func_name}")
 
-                            result = await session.call_tool(func_name, arguments=arguments)
+                            # Determine which server to use based on tool name
+                            if func_name in ['open_chrome_excalidraw', 'draw_rectangle', 'add_text_in_excalidraw']:
+                                result = await excalidraw_session.call_tool(func_name, arguments=arguments)
+                            elif func_name in ['send-email']:
+                                result = await gmail_session.call_tool(func_name, arguments=arguments)
+                            else:
+                                # Default to excalidraw session for math tools
+                                result = await excalidraw_session.call_tool(func_name, arguments=arguments)
                             print(f"DEBUG: Raw result: {result}")
 
                             # Get the full result content

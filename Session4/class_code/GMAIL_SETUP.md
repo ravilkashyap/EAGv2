@@ -35,34 +35,34 @@ The first time you run the Gmail server, it will:
 2. Ask you to grant permissions
 3. Save the token to `/Users/ravil/Documents/TSAI/gmail_token.json`
 
-## 5. Test the Setup
+## 5. Available Gmail Functions
 
-Run this command to test:
-```bash
-cd /Users/ravil/Documents/TSAI/Session4/class_code
-python test_gmail_server.py
-```
-
-## 6. Use in talk2mcp.py
-
-The Gmail server is already integrated. It provides these tools:
-- `send-email`: Send emails
+The Gmail MCP server provides these tools:
+- `send-email`: Send emails (recipient, subject, body)
 - `get-unread-emails`: Get unread emails
-- `read-email`: Read specific emails
+- `read-email`: Read specific email content
 - `trash-email`: Move emails to trash
 - `mark-email-as-read`: Mark emails as read
 - `open-email`: Open emails in browser
 
-## Example Usage
+## 6. Usage Example
 
-The LLM can now call:
+The LLM can call:
 ```bash
 FUNCTION_CALL: send-email|recipient@example.com|Math Problem Result|The answer is 42
 ```
 
+## 7. Test the Setup
+
+```bash
+cd /Users/ravil/Documents/TSAI/EAGv2/Session4/class_code
+python talk2mcp.py
+```
+
 ## Security Notes
 
-- Store credentials securely (outside of version control)
-- Use minimal required scopes
-- Review the Gmail server's code before using
+- Credentials are stored outside version control
+- Uses OAuth 2.0 for secure authentication
+- Minimal required Gmail API scopes
+- Review the server code before using
 - Be careful with prompt injection when reading emails
