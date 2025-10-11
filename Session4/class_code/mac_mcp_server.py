@@ -468,6 +468,68 @@ async def add_text_in_excalidraw(text: str) -> dict:
             ]
         }
 
+@mcp.tool()
+async def take_screenshot(filename: str = "excalidraw_screenshot.png") -> dict:
+    """Take a screenshot of the Excalidraw canvas and return the file path"""
+    global browser_open
+    try:
+        if not browser_open:
+            return {
+                "content": [
+                    TextContent(
+                        type="text",
+                        text="Browser is not open. Please call open_chrome_excalidraw first."
+                    )
+                ]
+            }
+
+        # Get browser window
+        all_titles = gw.getAllTitles()
+        excalidraw_found = any('Excalidraw' in title for title in all_titles)
+        chrome_found = any('Google Chrome' in title for title in all_titles)
+
+        if not (excalidraw_found or chrome_found):
+            return {
+                "content": [
+                    TextContent(
+                        type="text",
+                        text="Browser window not found"
+                    )
+                ]
+            }
+
+        # Get screen size for full screenshot
+        screen_width, screen_height = pyautogui.size()
+
+        # Take screenshot of entire screen (Excalidraw should be the active window)
+        screenshot = pyautogui.screenshot()
+
+        # Save screenshot
+        screenshot_path = f"/tmp/{filename}"
+        screenshot.save(screenshot_path)
+
+        print(f"Screenshot saved to: {screenshot_path}")
+
+        # Return both success message and the file path for the LLM to use
+        return {
+            "content": [
+                TextContent(
+                    type="text",
+                    text=f"Screenshot saved successfully to {screenshot_path}"
+                )
+            ],
+            "screenshot_path": screenshot_path  # Additional data for LLM
+        }
+    except Exception as e:
+        return {
+            "content": [
+                TextContent(
+                    type="text",
+                    text=f"Error taking screenshot: {str(e)}"
+                )
+            ]
+        }
+
 # DEFINE RESOURCES
 
 # Add a dynamic greeting resource

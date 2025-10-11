@@ -1,0 +1,31 @@
+<!doctype html>
+<html>
+
+<head>
+    <meta charset="utf-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1" />
+    <title>Universal Search – Options</title>
+    <link rel="stylesheet" href="options.css" />
+</head>
+
+<body>
+    <div class="wrap">
+        <h1>Universal Search – Settings</h1>
+        <section class="card">
+            <label>Gemini 2.5 API Key</label>
+            <input id="key" type="password" placeholder="AIza..." />
+        </section>
+        <section class="card">
+            <label><input id="includeHistory" type="checkbox" /> Include History</label>
+            <label><input id="includeBookmarks" type="checkbox" /> Include Bookmarks</label>
+            <label><input id="includeDownloads" type="checkbox" /> Include Downloads</label>
+        </section>
+        <div class="actions">
+            <button id="save" class="primary">Save</button>
+            <span id="status"></span>
+        </div>
+    </div>
+    <script type="module" src="options.js"></script>
+</body>
+
+</html>

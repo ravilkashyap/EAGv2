@@ -1,0 +1,22 @@
+{
+    "manifest_version": 3,
+    "name": "Math Agent Chat",
+    "version": "0.2.1",
+    "description": "Agentic AI for math with plotting and step logs",
+    "action": {
+        "default_title": "Open Math Agent"
+    },
+    "background": {
+        "service_worker": "service_worker.js"
+    },
+    "icons": {
+        "128": "icon.png"
+    },
+    "permissions": [
+        "tabs",
+        "storage"
+    ],
+    "host_permissions": [
+        "http://localhost:8000/*"
+    ]
+}

@@ -17,6 +17,7 @@ client = genai.Client(api_key=api_key)
 
 max_iterations = 10
 last_response = None
+last_screenshot_path = None
 iteration = 0
 iteration_response = []
 
@@ -54,8 +55,9 @@ async def generate_with_timeout(client, prompt, timeout=10):
 
 def reset_state():
     """Reset all global variables to their initial state"""
-    global last_response, iteration, iteration_response
+    global last_response, last_screenshot_path, iteration, iteration_response
     last_response = None
+    last_screenshot_path = None
     iteration = 0
     iteration_response = []
 
@@ -167,27 +169,31 @@ Important:
 - When a function returns multiple values, you need to process all of them
 - Only give FINAL_ANSWER when you have completed all necessary calculations
 - Do not repeat function calls with the same parameters
-- You can use Excalidraw functions (open_chrome_excalidraw, draw_rectangle, add_text_in_excalidraw) to visualize results
-- You can use Gmail functions (send-email) to share results via email
-- When using send-email, prFUNCTION_CALL: send-emaiovide: recipient_email|subject|HTML-formattedbody (do not include subject in the body)
+- You can use Excalidraw functions (open_chrome_excalidraw, draw_rectangle, add_text_in_excalidraw, take_screenshot) to visualize results and capture screenshots
+- You can use Gmail functions (send-email) to share results via email with attachments
+- When using send-email, provide: recipient_email|subject|HTML_body|attachment_path (attachment_path is optional)
+- After visualizing with Excalidraw, call take_screenshot to capture the visualization, then use the returned screenshot path as the attachment_path in send-email
+- The take_screenshot function saves to /tmp/filename and returns the full path
     - Use ravilkashyap619@gmail.com as the recipient always
     - Subject - Summarized one-liner of the question/problem (Eg: Convert "INDIA" to ASCII and sum exponentials)
     - Body - Well-formatted detailed steps and explanation of the solution. Format should be renderable by gmail. Do not include subject in the body. Ensure the format is HTML so that it gets rendered correctly. In the email DO NOT MENTION about excalidraw.
+    - Attachment_path - The path to the screenshot file - "/tmp/excalidraw_screenshot.png"
 - After visualizing with Excalidraw, you can send the result via email
 
 Examples:
 - FUNCTION_CALL: add|5|3
+- FINAL_ANSWER: [The answer is 42]
 - FUNCTION_CALL: open_chrome_excalidraw
 - FUNCTION_CALL: draw_rectangle|100|100|400|300
 - FUNCTION_CALL: add_text_in_excalidraw|The answer is 42
-- FUNCTION_CALL: send-email|ravilkashyap619@gmail.com|<subject>|<HTML-formatted-well-detailed-steps-and-explanation>
-- FINAL_ANSWER: [The answer is 42]
+- FUNCTION_CALL: take_screenshot|excalidraw_screenshot.png
+- FUNCTION_CALL: send-email|ravilkashyap619@gmail.com|Math Problem Solved|<p><strong>Calculation:</strong> 15 + 27 = 42, then 42 × 3 = 126</p><p><strong>Final answer: 126</strong></p>|/tmp/excalidraw_screenshot.png
 - END_OF_ANSWER: [The answer is 42]
 
 DO NOT include any explanations or additional text.
 Your entire response should be a single line starting with one of these - FUNCTION_CALL:, FINAL_ANSWER:, END_OF_ANSWER:"""
 
-                query = """Find the ASCII values of characters in THESCHOOLOFAI and then calculate the sum of exponentials of those values. When you have the final answer, you can use the Excalidraw tools to create a visual representation and display the results there as a rectangle. Always use the Excalidraw tools to show the final result. Once we display the result, then send the result via email using the Gmail tools. The email will be sent as HTML, so format the body with proper HTML tags (<p>, <strong>, <ol>, <li>, etc.) for better rendering in Gmail. Use a clear subject line and provide the calculation steps and final answer in the HTML-formatted email body. You can return END_OF_ANSWER: at the very end"""
+                query = """Find the ASCII values of characters in THESCHOOLOFAI and then calculate the sum of exponentials of those values. When you have the final answer, you can use the Excalidraw tools to create a visual representation and display the results there as a rectangle. Always use the Excalidraw tools to show the final result. Once we display the result, call take_screenshot to capture the visualization (it will save to /tmp/excalidraw_screenshot.png), then send the result via email using the Gmail tools with the screenshot attached. The email will be sent as HTML, so format the body with proper HTML tags for better rendering. Use a clear subject line and provide the calculation steps and final answer in the HTML-formatted email body. You can return END_OF_ANSWER: at the very end"""
                 print("Starting iteration loop...")
 
                 # Use global iteration variables
@@ -272,7 +278,7 @@ Your entire response should be a single line starting with one of these - FUNCTI
                             print(f"DEBUG: Calling tool {func_name}")
 
                             # Determine which server to use based on tool name
-                            if func_name in ['open_chrome_excalidraw', 'draw_rectangle', 'add_text_in_excalidraw']:
+                            if func_name in ['open_chrome_excalidraw', 'draw_rectangle', 'add_text_in_excalidraw', 'take_screenshot']:
                                 result = await excalidraw_session.call_tool(func_name, arguments=arguments)
                             elif func_name in ['send-email']:
                                 result = await gmail_session.call_tool(func_name, arguments=arguments)
@@ -295,6 +301,15 @@ Your entire response should be a single line starting with one of these - FUNCTI
                             else:
                                 print(f"DEBUG: Result has no content attribute")
                                 iteration_result = str(result)
+
+                            # Check for additional data like screenshot_path
+                            screenshot_path = None
+                            if hasattr(result, 'screenshot_path'):
+                                screenshot_path = result.screenshot_path
+                                print(f"DEBUG: Found screenshot path: {screenshot_path}")
+                                # Store screenshot path for later use
+                                global last_screenshot_path
+                                last_screenshot_path = screenshot_path
 
                             print(f"DEBUG: Final iteration result: {iteration_result}")
 

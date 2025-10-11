@@ -1,0 +1,45 @@
+{
+    "manifest_version": 3,
+    "name": "Chronos",
+    "version": "0.1.0",
+    "description": "AI-powered Spotlight: search clipboard, tabs, history, bookmarks, downloads.",
+    "action": {
+        "default_title": "Universal Search",
+        "default_popup": "popup/popup.html"
+    },
+    "background": {
+        "service_worker": "src/background.js",
+        "type": "module"
+    },
+    "permissions": [
+        "storage",
+        "activeTab",
+        "tabs",
+        "tabGroups",
+        "history",
+        "bookmarks",
+        "downloads",
+        "contextMenus",
+        "alarms",
+        "clipboardRead"
+    ],
+    "host_permissions": [
+        "https://generativelanguage.googleapis.com/*"
+    ],
+    "commands": {
+        "_execute_action": {
+            "suggested_key": {
+                "default": "Ctrl+Shift+Space",
+                "mac": "Command+Shift+Space"
+            },
+            "description": "Open Universal Search"
+        }
+    },
+    "options_page": "options/options.html",
+    "icons": {
+        "16": "assets/icons/icon.svg",
+        "32": "assets/icons/icon.svg",
+        "48": "assets/icons/icon.svg",
+        "128": "assets/icons/icon.svg"
+    }
+}

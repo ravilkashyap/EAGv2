@@ -1,0 +1,38 @@
+<svg width="128" height="128" viewBox="0 0 128 128" xmlns="http://www.w3.org/2000/svg">
+  <defs>
+    <linearGradient id="grad" x1="12" y1="12" x2="116" y2="116" gradientUnits="userSpaceOnUse">
+      <stop offset="0" stop-color="#00E5FF"/>
+      <stop offset="1" stop-color="#7CFFD6"/>
+    </linearGradient>
+    <radialGradient id="glow" cx="0" cy="0" r="1" gradientUnits="userSpaceOnUse" gradientTransform="translate(40 32) rotate(35) scale(84 64)">
+      <stop stop-color="#00E5FF" stop-opacity="0.35"/>
+      <stop offset="1" stop-color="#00E5FF" stop-opacity="0"/>
+    </radialGradient>
+    <filter id="soft" x="-50%" y="-50%" width="200%" height="200%">
+      <feGaussianBlur stdDeviation="3"/>
+    </filter>
+  </defs>
+
+  <!-- Background card -->
+  <rect x="4" y="4" width="120" height="120" rx="24" fill="#0B0F14"/>
+  <rect x="4" y="4" width="120" height="120" rx="24" fill="url(#glow)"/>
+
+  <!-- Magnifying glass ring -->
+  <circle cx="58" cy="56" r="26" fill="none" stroke="url(#grad)" stroke-width="6" stroke-linecap="round" stroke-linejoin="round"/>
+  <circle cx="58" cy="56" r="20" fill="none" stroke="#00E5FF" stroke-opacity="0.25" stroke-width="4"/>
+
+  <!-- Handle -->
+  <g transform="rotate(35 74 74)">
+    <rect x="74" y="68" width="40" height="10" rx="5" fill="url(#grad)"/>
+    <rect x="74" y="68" width="40" height="10" rx="5" fill="#00E5FF" opacity="0.2"/>
+  </g>
+
+  <!-- Spark bolt accent -->
+  <g filter="url(#soft)">
+    <path d="M94 30 L84 48 L92 48 L86 60 L108 40 L98 40 L104 30 Z" fill="#00E5FF" opacity="0.45"/>
+  </g>
+  <path d="M94 30 L84 48 L92 48 L86 60 L108 40 L98 40 L104 30 Z" fill="#7CFFD6"/>
+
+  <!-- Border stroke for crispness -->
+  <rect x="4.5" y="4.5" width="119" height="119" rx="24" fill="none" stroke="#14202B"/>
+</svg>

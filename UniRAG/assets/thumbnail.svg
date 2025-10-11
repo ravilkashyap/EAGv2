@@ -1,0 +1,39 @@
+<svg width="640" height="360" viewBox="0 0 640 360" fill="none" xmlns="http://www.w3.org/2000/svg">
+  <defs>
+    <linearGradient id="g1" x1="0" y1="0" x2="640" y2="360" gradientUnits="userSpaceOnUse">
+      <stop stop-color="#00E5FF" stop-opacity="0.7"/>
+      <stop offset="1" stop-color="#7CFFD6" stop-opacity="0.5"/>
+    </linearGradient>
+    <radialGradient id="glow" cx="0" cy="0" r="1" gradientUnits="userSpaceOnUse" gradientTransform="translate(160 120) rotate(45) scale(320 220)">
+      <stop stop-color="#00E5FF" stop-opacity="0.35"/>
+      <stop offset="1" stop-color="#00E5FF" stop-opacity="0"/>
+    </radialGradient>
+    <filter id="soft" x="-50%" y="-50%" width="200%" height="200%">
+      <feGaussianBlur stdDeviation="6"/>
+    </filter>
+  </defs>
+
+  <rect width="640" height="360" fill="#0B0F14"/>
+  <rect width="640" height="360" fill="url(#glow)"/>
+
+  <!-- Neon rings -->
+  <circle cx="210" cy="150" r="78" stroke="url(#g1)" stroke-width="6" fill="none"/>
+  <circle cx="210" cy="150" r="62" stroke="#0FF0FF" stroke-opacity="0.25" stroke-width="3" fill="none"/>
+
+  <!-- Handle of magnifying glass -->
+  <rect x="272" y="192" width="128" height="14" rx="7" transform="rotate(35 272 192)" fill="url(#g1)"/>
+  <rect x="272" y="192" width="128" height="14" rx="7" transform="rotate(35 272 192)" fill="#00E5FF" opacity="0.2"/>
+
+  <!-- Spark bolt -->
+  <path d="M418 94 L392 142 L412 142 L394 180 L444 124 L422 124 L438 94 Z" fill="#7CFFD6"/>
+  <g filter="url(#soft)">
+    <path d="M418 94 L392 142 L412 142 L394 180 L444 124 L422 124 L438 94 Z" fill="#00E5FF" opacity="0.5"/>
+  </g>
+
+  <!-- Headline -->
+  <text x="40" y="300" fill="#E6F0FF" font-family="Inter, Segoe UI, Roboto, Helvetica, Arial, sans-serif" font-size="28" font-weight="700">Universal Search – AI Spotlight</text>
+  <text x="40" y="330" fill="#9DB0CC" font-family="Inter, Segoe UI, Roboto, Helvetica, Arial, sans-serif" font-size="16">Search tabs, clipboard, history, bookmarks, downloads • ⚡ Gemini-powered</text>
+
+  <!-- Accent line -->
+  <rect x="40" y="312" width="320" height="2" fill="url(#g1)"/>
+</svg>

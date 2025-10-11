@@ -1,0 +1,117 @@
+<!DOCTYPE html>
+<html>
+
+<head>
+    <title>Test Music Response</title>
+    <style>
+        body {
+            font-family: Arial, sans-serif;
+            margin: 20px;
+            line-height: 1.6;
+        }
+
+        .test-section {
+            margin: 20px 0;
+            padding: 15px;
+            border: 1px solid #ddd;
+            border-radius: 8px;
+        }
+
+        .ai-response {
+            background: #f0f8ff;
+            padding: 15px;
+            border-radius: 8px;
+            margin: 10px 0;
+        }
+
+        .tab-result {
+            background: #f9f9f9;
+            padding: 10px;
+            margin: 5px 0;
+            border-radius: 4px;
+        }
+    </style>
+</head>
+
+<body>
+    <h1>🎵 Music Query Test Results</h1>
+
+    <div class="test-section">
+        <h3>🔍 Query: "what songs have i listened to in the last 3 days"</h3>
+
+        <h4>📱 Tab Results (should show):</h4>
+        <div class="tab-result">
+            <strong>Pardesiya - YouTube Music</strong><br>
+            <a href="https://music.youtube.com/watch?v=dQw4w9WgXcQ"
+                target="_blank">https://music.youtube.com/watch?v=dQw4w9WgXcQ</a><br>
+            <em>Accessed: 3 days ago</em>
+        </div>
+        <div class="tab-result">
+            <strong>Tere Bina - Spotify Web Player</strong><br>
+            <a href="https://open.spotify.com/track/4uLU6hMCjMI75M1A2tKUQC"
+                target="_blank">https://open.spotify.com/track/4uLU6hMCjMI75M1A2tKUQC</a><br>
+            <em>Accessed: 2 days ago</em>
+        </div>
+        <div class="tab-result">
+            <strong>Dwapara - Apple Music</strong><br>
+            <a href="https://music.apple.com/us/album/dwapara/123456789"
+                target="_blank">https://music.apple.com/us/album/dwapara/123456789</a><br>
+            <em>Accessed: 1 day ago</em>
+        </div>
+        <div class="tab-result">
+            <strong>Saptasagaradache Ello - YouTube</strong><br>
+            <a href="https://youtube.com/watch?v=jNQXAC9IVRw"
+                target="_blank">https://youtube.com/watch?v=jNQXAC9IVRw</a><br>
+            <em>Accessed: 3 days ago</em>
+        </div>
+        <div class="tab-result">
+            <strong>Preetiya Hesare Neenu - SoundCloud</strong><br>
+            <a href="https://soundcloud.com/artist/preetiya-hesare-neenu"
+                target="_blank">https://soundcloud.com/artist/preetiya-hesare-neenu</a><br>
+            <em>Accessed: 2 days ago</em>
+        </div>
+    </div>
+
+    <div class="test-section">
+        <h4>🤖 AI Response (should show):</h4>
+        <div class="ai-response">
+            <p>In the last 3 days, you have listened to the following songs:</p>
+            <ul>
+                <li><a href="https://music.youtube.com/watch?v=dQw4w9WgXcQ" target="_blank">Pardesiya</a> - YouTube
+                    Music - 1/1/2024</li>
+                <li><a href="https://open.spotify.com/track/4uLU6hMCjMI75M1A2tKUQC" target="_blank">Tere Bina</a> -
+                    Spotify - 1/2/2024</li>
+                <li><a href="https://music.apple.com/us/album/dwapara/123456789" target="_blank">Dwapara</a> - Apple
+                    Music - 1/3/2024</li>
+                <li><a href="https://youtube.com/watch?v=jNQXAC9IVRw" target="_blank">Saptasagaradache Ello</a> -
+                    YouTube - 1/1/2024</li>
+                <li><a href="https://soundcloud.com/artist/preetiya-hesare-neenu" target="_blank">Preetiya Hesare
+                        Neenu</a> - SoundCloud - 1/2/2024</li>
+            </ul>
+            <p>Reference tabs from your browsing history show you accessed these tracks across various music platforms.
+            </p>
+        </div>
+    </div>
+
+    <div class="test-section">
+        <h3>🧪 How to Test</h3>
+        <ol>
+            <li><strong>Load Extension:</strong> Go to <code>chrome://extensions/</code> → Load unpacked → Select
+                <code>/Users/ravil/Documents/TSAI/UniRAG</code>
+            </li>
+            <li><strong>Click Extension Icon:</strong> In Chrome toolbar</li>
+            <li><strong>Type Query:</strong> <code>what songs have i listened to in the last 3 days</code></li>
+            <li><strong>Press Enter:</strong> Should show AI response above</li>
+        </ol>
+
+        <p><strong>✅ Expected Results:</strong></p>
+        <ul>
+            <li>Tab results section shows 5 fake music tabs with timestamps</li>
+            <li>AI response shows formatted list of songs with links</li>
+            <li>All timestamps are within last 3 days</li>
+            <li>Links point to various music platforms</li>
+        </ul>
+    </div>
+</body>
+
+</html>

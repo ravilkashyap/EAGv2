@@ -1,0 +1,149 @@
+<!DOCTYPE html>
+<html>
+
+<head>
+    <title>Enhanced Music Response Format</title>
+    <style>
+        body {
+            font-family: Arial, sans-serif;
+            margin: 20px;
+            line-height: 1.6;
+        }
+
+        .response-demo {
+            background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+            padding: 20px;
+            border-radius: 12px;
+            color: white;
+            margin: 20px 0;
+            max-width: 600px;
+        }
+
+        .song-item {
+            margin-bottom: 8px;
+            padding: 8px 0;
+            border-bottom: 1px solid rgba(255, 255, 255, 0.2);
+        }
+
+        .song-item:last-child {
+            border-bottom: none;
+        }
+
+        .song-title {
+            color: #ffffff;
+            text-decoration: none;
+            font-weight: bold;
+        }
+
+        .song-title:hover {
+            text-decoration: underline;
+        }
+
+        .song-meta {
+            color: rgba(255, 255, 255, 0.8);
+            font-size: 14px;
+        }
+
+        .section {
+            margin: 20px 0;
+            padding: 15px;
+            border: 1px solid #ddd;
+            border-radius: 8px;
+        }
+
+        .before {
+            background: #f8f9fa;
+        }
+
+        .after {
+            background: #e8f4fd;
+        }
+
+        .code {
+            background: #f1f3f4;
+            padding: 10px;
+            border-radius: 4px;
+            font-family: monospace;
+            font-size: 14px;
+        }
+    </style>
+</head>
+
+<body>
+    <h1>🎵 Enhanced Music Response Format</h1>
+
+    <div class="section before">
+        <h3>❌ Before (Basic Format)</h3>
+        <div class="code">
+            In the last 3 days, you have listened to the following songs:
+
+            • Pardesiya - YouTube Music - 24/09/2025
+            • Tere Bina - Spotify - 25/09/2025
+            • Dwapara - Apple Music - 25/09/2025
+            • Saptasagaradache Ello - YouTube - 26/09/2025
+            • Preetiya Hesare Neenu - SoundCloud - 26/09/2025
+        </div>
+    </div>
+
+    <div class="section after">
+        <h3>✅ After (Enhanced Format)</h3>
+        <div class="response-demo">
+            <h3 style="margin: 0 0 15px 0; color: white; text-align: center;">🎵 Recent Music Activity</h3>
+            <p style="margin: 0 0 15px 0; opacity: 0.9; text-align: center;">In the last 3 days, you have listened to:
+            </p>
+            <ul style="list-style: none; padding: 0; margin: 0;">
+                <li class="song-item">
+                    <strong><a href="https://music.youtube.com/watch?v=kMyTKHEJ-6c" class="song-title"
+                            target="_blank">Pardesiya</a></strong>
+                    <span class="song-meta">• YouTube Music • Dec 24, 2024</span>
+                </li>
+                <li class="song-item">
+                    <strong><a href="https://music.youtube.com/watch?v=9bZkp7q19f0" class="song-title"
+                            target="_blank">Tere Bina</a></strong>
+                    <span class="song-meta">• YouTube Music • Dec 25, 2024</span>
+                </li>
+                <li class="song-item">
+                    <strong><a href="https://music.youtube.com/watch?v=kJQP7kiw5Fk" class="song-title"
+                            target="_blank">Dwapara</a></strong>
+                    <span class="song-meta">• YouTube Music • Dec 25, 2024</span>
+                </li>
+                <li class="song-item">
+                    <strong><a href="https://youtube.com/watch?v=jNQXAC9IVRw" class="song-title"
+                            target="_blank">Saptasagaradache Ello</a></strong>
+                    <span class="song-meta">• YouTube • Dec 26, 2024</span>
+                </li>
+                <li class="song-item">
+                    <strong><a href="https://music.youtube.com/watch?v=2Vv-BfVoq4g" class="song-title"
+                            target="_blank">Preetiya Hesare Neenu</a></strong>
+                    <span class="song-meta">• YouTube Music • Dec 26, 2024</span>
+                </li>
+            </ul>
+            <p style="margin: 15px 0 0 0; opacity: 0.8; font-size: 14px; text-align: center;">
+                Reference tabs from your browsing history show you accessed these tracks on YouTube platforms.
+            </p>
+        </div>
+    </div>
+
+    <div class="section">
+        <h3>🎯 Key Improvements</h3>
+        <ul>
+            <li><strong>Visual Design:</strong> Beautiful gradient background with proper spacing</li>
+            <li><strong>Better Typography:</strong> Clear hierarchy with headings and proper font weights</li>
+            <li><strong>Interactive Elements:</strong> Clickable song titles that open in new tabs</li>
+            <li><strong>Platform Clarity:</strong> Clear indication of YouTube vs YouTube Music</li>
+            <li><strong>Date Formatting:</strong> Consistent, readable date format (Dec 24, 2024)</li>
+            <li><strong>Responsive Layout:</strong> Works well on different screen sizes</li>
+        </ul>
+    </div>
+
+    <div class="section">
+        <h3>🧪 Test the Implementation</h3>
+        <ol>
+            <li><strong>Load Extension:</strong> <code>chrome://extensions/</code> → Load unpacked</li>
+            <li><strong>Type Query:</strong> <code>"what songs have i listened to in the last 3 days"</code></li>
+            <li><strong>Press Enter:</strong> See the beautiful formatted response above</li>
+        </ol>
+    </div>
+</body>
+
+</html>

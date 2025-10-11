@@ -1,0 +1,123 @@
+<!DOCTYPE html>
+<html>
+
+<head>
+    <title>Extension Test Guide</title>
+    <style>
+        body {
+            font-family: Arial, sans-serif;
+            margin: 20px;
+            line-height: 1.6;
+        }
+
+        .step {
+            margin: 20px 0;
+            padding: 15px;
+            border-left: 4px solid #007acc;
+            background: #f8f9fa;
+        }
+
+        .warning {
+            background: #fff3cd;
+            border-left-color: #ffc107;
+        }
+
+        .success {
+            background: #d4edda;
+            border-left-color: #28a745;
+        }
+
+        .error {
+            background: #f8d7da;
+            border-left-color: #dc3545;
+        }
+
+        code {
+            background: #e9ecef;
+            padding: 2px 6px;
+            border-radius: 3px;
+            font-family: 'Courier New', monospace;
+        }
+
+        pre {
+            background: #f8f9fa;
+            padding: 15px;
+            border-radius: 5px;
+            overflow-x: auto;
+        }
+    </style>
+</head>
+
+<body>
+    <h1>🔧 Extension Testing Guide</h1>
+
+    <div class="step success">
+        <h3>✅ Step 1: Load the Extension</h3>
+        <ol>
+            <li>Open Chrome and go to <code>chrome://extensions/</code></li>
+            <li>Enable "Developer mode" (toggle in top right)</li>
+            <li>Click "Load unpacked" and select the <code>/Users/ravil/Documents/TSAI/UniRAG</code> folder</li>
+            <li>The extension should appear in your extensions list</li>
+        </ol>
+    </div>
+
+    <div class="step">
+        <h3>🔑 Step 2: Configure API Key</h3>
+        <ol>
+            <li>Click the extension icon in Chrome toolbar (or use <code>Ctrl+Shift+Space</code>)</li>
+            <li>Click the "Options" link in the popup</li>
+            <li>Enter your Gemini API key in the "Gemini 2.5 API Key" field</li>
+            <li>Click "Save"</li>
+        </ol>
+        <p><strong>Note:</strong> Get your API key from <a href="https://aistudio.google.com/app/apikey"
+                target="_blank">Google AI Studio</a></p>
+    </div>
+
+    <div class="step">
+        <h3>🧪 Step 3: Test the Extension</h3>
+        <ol>
+            <li>Click the extension icon again</li>
+            <li>Type a query like <code>"what songs have i listened to in the last 3 days"</code></li>
+            <li>Press <code>Enter</code> to trigger AI response</li>
+            <li>The AI section should appear with a response (if API key is configured)</li>
+        </ol>
+    </div>
+
+    <div class="step warning">
+        <h3>⚠️ Troubleshooting</h3>
+        <p><strong>If you see empty AI responses:</strong></p>
+        <ul>
+            <li>Check that your Gemini API key is correctly configured in the options</li>
+            <li>Make sure the API key has the correct permissions</li>
+            <li>Check the browser console for error messages (<code>F12 → Console</code>)</li>
+        </ul>
+        <p><strong>If the extension doesn't load:</strong></p>
+        <ul>
+            <li>Check the browser console for JavaScript errors</li>
+            <li>Ensure all files are present in the extension folder</li>
+            <li>Try reloading the extension from <code>chrome://extensions/</code></li>
+        </ul>
+    </div>
+
+    <div class="step">
+        <h3>📝 Expected Behavior</h3>
+        <ul>
+            <li><strong>Typing:</strong> Shows search results immediately (no AI)</li>
+            <li><strong>Enter key:</strong> Triggers AI analysis and shows response</li>
+            <li><strong>No API key:</strong> AI section remains hidden</li>
+            <li><strong>API configured:</strong> Shows AI response based on your browsing history</li>
+        </ul>
+    </div>
+
+    <div class="step">
+        <h3>🔍 Debug Information</h3>
+        <p>Open browser console (<code>F12</code>) and look for these log messages:</p>
+        <ul>
+            <li><code>API key present: true/false</code> - Check if API key is loaded</li>
+            <li><code>AI will be triggered for query: ...</code> - Confirms AI is being called</li>
+            <li><code>API response status: 200</code> - Confirms successful API call</li>
+        </ul>
+    </div>
+</body>
+
+</html>
