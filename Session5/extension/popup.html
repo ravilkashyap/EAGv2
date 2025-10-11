@@ -1,0 +1,46 @@
+<!doctype html>
+<html>
+
+<head>
+    <meta charset="utf-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1" />
+    <title>Math Agent</title>
+    <link rel="stylesheet" href="styles.css" />
+    <link rel="stylesheet" href="vendor/katex.min.css" />
+</head>
+
+<body>
+    <div id="app">
+        <header>
+            <div class="title">Math Agent</div>
+            <div class="actions">
+                <button id="themeToggle" title="Toggle theme">☾</button>
+            </div>
+        </header>
+
+        <main id="chat" class="drop-zone">
+            <div id="messages" aria-live="polite"></div>
+            <div id="timeline" class="timeline"></div>
+            <div id="dropHint" class="drop-hint" hidden>Drop image to attach</div>
+        </main>
+
+        <footer>
+            <button id="attachBtn" title="Attach image">📎</button>
+            <input type="file" id="fileInput" accept="image/*" hidden />
+            <div id="preview" class="preview" hidden>
+                <img id="previewImg" alt="preview" />
+                <button id="removePreview" title="Remove">✕</button>
+            </div>
+            <textarea id="text" placeholder="Ask a math question… (Tip: paste or drop an image)" rows="2"></textarea>
+            <div class="right-controls">
+                <button id="send" class="primary">Send</button>
+                <button id="copyLogs" class="secondary">Copy Logs</button>
+            </div>
+        </footer>
+    </div>
+
+    <script src="vendor/katex.min.js"></script>
+    <script src="popup.js"></script>
+</body>
+
+</html>
